@@ -194,3 +194,14 @@ class JsCompressor(Compressor):
             else:
                 self.split_content.append(('hunk', elem.string, elem))
         return self.split_content
+
+
+class EmbeddedJsCompressor(JsCompressor):
+    
+    def split_contents(self):
+        return [('hunk', self.content, None)]
+    
+    def output(self):
+        if not settings.COMPRESS:
+            return self.content
+        return self.combined
