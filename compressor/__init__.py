@@ -205,3 +205,13 @@ class EmbeddedJsCompressor(JsCompressor):
         if not settings.COMPRESS:
             return self.content
         return self.combined
+
+class EmbeddedCssCompressor(CssCompressor):
+    
+    def split_contents(self):
+        return [('hunk', self.content, None)]
+    
+    def output(self):
+        if not settings.COMPRESS:
+            return self.content
+        return self.combined

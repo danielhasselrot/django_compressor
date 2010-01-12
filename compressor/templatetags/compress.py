@@ -1,6 +1,6 @@
 from django import template
 from django.core.cache import cache
-from compressor import CssCompressor, JsCompressor, EmbeddedJsCompressor
+from compressor import CssCompressor, JsCompressor, EmbeddedCssCompressor, EmbeddedJsCompressor
 from compressor.conf import settings
 
 
@@ -19,6 +19,8 @@ class CompressorNode(template.Node):
             compressor = CssCompressor(content)
         if self.kind == 'js':
             compressor = JsCompressor(content)
+        if self.kind == 'embeddedcss':            
+            compressor = EmbeddedCssCompressor(content)
         if self.kind == 'embeddedjs':            
             compressor = EmbeddedJsCompressor(content)
 
@@ -92,7 +94,7 @@ def compress(parser, token):
         raise template.TemplateSyntaxError("%r tag requires either 1, 3 or 5 arguments." % args[0])
 
     kind = args[1]
-    if not kind in ['css', 'js', 'embeddedjs']:
+    if not kind in ['css', 'js', 'embeddedcss', 'embeddedjs']:
         raise template.TemplateSyntaxError("%r's argument must be 'js' or 'css'." % (args[0], ', '.join(ALLOWED_ARGS)))
 
     return CompressorNode(nodelist, kind)
