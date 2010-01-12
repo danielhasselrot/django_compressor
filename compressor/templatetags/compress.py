@@ -2,7 +2,7 @@ from django import template
 from django.core.cache import cache
 from compressor import CssCompressor, JsCompressor, EmbeddedCssCompressor, EmbeddedJsCompressor
 from compressor.conf import settings
-
+import time
 
 register = template.Library()
 
@@ -33,7 +33,7 @@ class CompressorNode(template.Node):
             in_progress = cache.get(in_progress_key)
             if in_progress:
                 while cache.get(in_progress_key):
-                    sleep(0.1)
+                    time.sleep(0.1)
                 output = cache.get(compressor.cachekey)
             else:
                 cache.set(in_progress_key, True, 300)
