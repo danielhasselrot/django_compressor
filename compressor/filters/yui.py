@@ -41,8 +41,6 @@ class YUICompressorFilter(FilterBase):
         if self.verbose:
             print err
 
-        print filtered
-
         return filtered
 
 class YUICSSFilter(YUICompressorFilter):
