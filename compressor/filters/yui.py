@@ -11,7 +11,6 @@ JS_ARGUMENTS = getattr(settings, 'COMPRESS_YUI_JS_ARGUMENTS', '')
 class YUICompressorFilter(FilterBase):
 
     def output(self, **kwargs):
-        print ">>>>", self.type
         arguments = ''
         if self.type == 'js':
             arguments = JS_ARGUMENTS
@@ -19,7 +18,7 @@ class YUICompressorFilter(FilterBase):
             arguments = CSS_ARGUMENTS
             
         command = '%s --type=%s %s' % (BINARY, self.type, arguments)
-        self.verbose = True
+
         if self.verbose:
             command += ' --verbose'
 
