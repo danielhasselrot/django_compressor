@@ -19,7 +19,7 @@ Examples::
 
 Which would be rendered something like::
 
-    <link rel="stylesheet" href="/media/CACHE/css/f7c661b7a124.css" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="/media/CACHE/css/f7c661b7a124.css" type="text/css" charset="utf-8">
 
 or::
 
@@ -50,8 +50,12 @@ starting with a '/') are left alone.
 Stylesheets that are @import'd are not compressed into the main file. They are
 left alone.
 
-Set the media attribute as normal on your <style> and <link> elements and
-the combined CSS will be wrapped in @media blocks as necessary.
+If the media attribute is set on <style> and <link> elements, a separate
+compressed file is created and linked for each media value you specified.
+This allows the media attribute to remain on the generated link element,
+instead of wrapping your CSS with @media blocks (which can break your own
+@media queries or @font-face declarations). It also allows browsers to avoid
+downloading CSS for irrelevant media types.
 
 **Recommendations:**
 
@@ -91,27 +95,58 @@ Settings
 Django compressor has a number of settings that control it's behavior.
 They've been given sensible defaults.
 
-`COMPRESS` default: the opposite of `DEBUG`
-  Boolean that decides if compression will happen.
+``COMPRESS``
+------------
 
-`COMPRESS_URL` default: `MEDIA_URL`
-  Controls the URL that linked media will be read from and compressed media
-  will be written to.
+:Default: the opposite of ``DEBUG``
 
-`COMPRESS_ROOT` default: `MEDIA_ROOT`
-  Controls the absolute file path that linked media will be read from and
-  compressed media will be written to.
+Boolean that decides if compression will happen.
 
-`COMPRESS_OUTPUT_DIR` default: `"CACHE"`
-  Conttrols the directory inside `COMPRESS_ROOT` that compressed files will
-  be written to.
+``COMPRESS_URL``
+----------------
 
-`COMPRESS_CSS_FILTERS` default: []
-  A list of filters that will be applied to CSS.
+:Default: ``MEDIA_URL``
 
-`COMPRESS_JS_FILTERS` default: ['compressor.filters.jsmin.JSMinFilter'])
-  A list of filters that will be applied to javascript.
+Controls the URL that linked media will be read from and compressed media
+will be written to.
 
+``COMPRESS_ROOT``
+-----------------
+
+:Default: ``MEDIA_ROOT``
+
+Controls the absolute file path that linked media will be read from and
+compressed media will be written to.
+
+``COMPRESS_OUTPUT_DIR``
+-----------------------
+
+:Default: ``'CACHE'``
+
+Conttrols the directory inside `COMPRESS_ROOT` that compressed files will
+be written to.
+
+``COMPRESS_CSS_FILTERS``
+------------------------
+
+:Default: ``[]``
+
+A list of filters that will be applied to CSS.
+
+``COMPRESS_JS_FILTERS``
+-----------------------
+
+:Default: ``['compressor.filters.jsmin.JSMinFilter']``
+
+A list of filters that will be applied to javascript.
+
+``COMPRESS_STORAGE``
+--------------------
+
+:Default: ``'compressor.storage.CompressorFileStorage'``
+
+The dotted path to a Django Storage backend to be used to save the
+compressed files.
 
 Dependecies
 ***********
