@@ -44,7 +44,7 @@ class CompressorNode(template.Node):
             compressor = CssCompressor(content)
         if self.kind == 'js':
             compressor = JsCompressor(content)
- 		if self.kind == 'embeddedcss':            
+ 	if self.kind == 'embeddedcss':            
             compressor = EmbeddedCssCompressor(content)
         if self.kind == 'embeddedjs':            
             compressor = EmbeddedJsCompressor(content)
